@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 void MainWindow::set_Palette()
 {
     Paleta_colores.setColor(QPalette::Normal,QPalette::Window,QColor(254, 247, 195));//Fondo (Crema)
-    //Paleta_colores.setColor(QPalette::Normal,QPalette::PlaceholderText,QColor(94, 68, 92));
+    Paleta_colores.setColor(QPalette::Normal,QPalette::PlaceholderText,QColor(94, 68, 92));
     Paleta_colores.setColor(QPalette::Normal,QPalette::Text,QColor(94, 68, 92));//Texto que escribe el usuario (Morado)
     Paleta_colores.setColor(QPalette::Normal,QPalette::ButtonText,QColor(254, 247, 195));
     Paleta_colores.setColor(QPalette::Normal,QPalette::Base,QColor(254, 247, 195));//Fondo line edit
