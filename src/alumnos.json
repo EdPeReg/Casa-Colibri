@@ -1,0 +1,32 @@
+{
+    "alumnos": [
+        {
+            "last_names": "Sandoval",
+            "names": "Alan"
+        },
+        {
+            "last_names": "Ceballos",
+            "names": "Cesar"
+        },
+        {
+            "last_names": "Delgado",
+            "names": "Omar"
+        },
+        {
+            "last_names": "Dorantes",
+            "names": "Bogar"
+        },
+        {
+            "last_names": "Padilla",
+            "names": "Jordy"
+        },
+        {
+            "last_names": "Fuentes",
+            "names": "Eduardo"
+        },
+        {
+            "last_names": "erger",
+            "names": "dfdg"
+        }
+    ]
+}
