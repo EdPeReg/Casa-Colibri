@@ -1,0 +1,9 @@
+1.-actualizar lista de alumnos autppmaticamente
+2.-ordenar alumnos por nombre
+3.-tamaño proporcional a la ventana
+
+Estado de animo y Sueños-francisco,Cesar,Karina
+Asistencia-alan Y eduardo
+
+backlog - actividades recreativas para el control de las 
+	emociones del MORRILLO

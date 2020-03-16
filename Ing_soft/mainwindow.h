@@ -15,7 +15,9 @@
 #include <QFile>
 #include <QVector>
 #include <QPainter>
-#include <Windows.h>
+#include <QDesktopWidget>
+#include <QApplication>
+#include <QMessageBox>
 
 namespace Ui {
 class MainWindow;
@@ -57,6 +59,8 @@ private:
     void set_LoginPage();
     void set_MainMenuPage();
     void set_ProfilesPage();
+    void set_AttendancePage();
+    void take_Attendance(QGridLayout *total, QWidget *Contenido, int iterator);
     void set_BurgerMenu(QGridLayout *total);
 
     void presionar_ingresar(QString username,QString password);

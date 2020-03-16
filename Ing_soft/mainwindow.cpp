@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#define ancho_res GetSystemMetrics(SM_CXSCREEN)
-#define alto_res GetSystemMetrics(SM_CYSCREEN)
+#define ancho_res QApplication::desktop()->width()
+#define alto_res QApplication::desktop()->height()
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     set_Paginas();
 
     Paginas.setCurrentIndex(0);
+
 
     this->setCentralWidget(&Paginas);
     this->showMaximized();
@@ -29,7 +30,7 @@ MainWindow::~MainWindow()
 void MainWindow::set_Palette()
 {
     Paleta_colores.setColor(QPalette::Normal,QPalette::Window,QColor(254, 247, 195));//Fondo (Crema)
-    Paleta_colores.setColor(QPalette::Normal,QPalette::PlaceholderText,QColor(94, 68, 92));
+    //Paleta_colores.setColor(QPalette::Normal,QPalette::PlaceholderText,QColor(94, 68, 92));
     Paleta_colores.setColor(QPalette::Normal,QPalette::Text,QColor(94, 68, 92));//Texto que escribe el usuario (Morado)
     Paleta_colores.setColor(QPalette::Normal,QPalette::ButtonText,QColor(254, 247, 195));
     Paleta_colores.setColor(QPalette::Normal,QPalette::Base,QColor(254, 247, 195));//Fondo line edit
@@ -80,6 +81,7 @@ void MainWindow::set_Paginas()
     set_LoginPage();
     set_MainMenuPage();
     set_ProfilesPage();
+    set_AttendancePage();
 
 
 }
@@ -150,6 +152,7 @@ void MainWindow::set_MainMenuPage()
     QPushButton *asistencia=new QPushButton;
     asistencia->setText("Asistencia");
     total->addWidget(asistencia,0,2);
+    connect(asistencia, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(3); } );
 
     QPushButton *dreams=new QPushButton;
     dreams->setText("Sueños");
@@ -288,6 +291,160 @@ void MainWindow::set_ProfilesPage()
     Paginas.addWidget(MainMenu);
 }
 
+void MainWindow::set_AttendancePage()
+{
+    QWidget *Total_widget=new QWidget;
+    QWidget *Perfiles_widget=new QWidget;
+    QWidget *Contenido_widget=new QWidget;
+
+    QGridLayout *Total_layout =new QGridLayout;
+    QGridLayout *Perfiles_layout =new QGridLayout;
+    QGridLayout *Contenido_layout =new QGridLayout;
+    QScrollArea *Perfiles_ScrollArea =new QScrollArea;
+
+    Total_widget->setStyleSheet("QWidget { background-color: rgb(254, 247, 195);}"
+                                "QPushButton { background-color: transparent;"
+                                "color: rgb(94, 68, 92);"
+                                "height: "+QString().number(alto_res/15)+"px;"
+                                "width: "+QString().number(ancho_res/4)+"px;}"
+                                "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                                "color: rgb(254, 247, 195);}");
+
+    for (int i=0;i<alumnos.size();i++) {
+        QPushButton *alumno=new QPushButton;
+        QPixmap pixmap("imgs/perfil_icon.png");
+        alumno->setStyleSheet("QPushButton { background-color: transparent;"
+                              "color: rgb(254, 247, 195);"
+                              "width: "+QString().number(ancho_res/4)+"px;"
+                              "height: "+QString().number(alto_res/15)+"px;}"
+                              "QPushButton::pressed { background-color: rgb(254, 247, 195);"
+                              "color: rgb(94, 68, 92);}");
+        alumno->setFont(QFont("Century Gothic",15,100));
+        alumno->setIconSize(QSize(alto_res/20,alto_res/20));
+        alumno->setIcon(pixmap);
+        alumno->setText(alumnos.at(i).nombres+" "+alumnos.at(i).apellidos);
+        Perfiles_layout->addWidget(alumno,i,0);
+        connect(alumno, &QPushButton::clicked, [=]() {} );
+    }
+
+    QPushButton *Empezar=new QPushButton;
+    Empezar->setFont(QFont("Century Gothic",35,100));
+    Empezar->setText("Empezar");
+    Contenido_layout->addWidget(Empezar,0,0);
+    connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(Total_layout,Contenido_widget,0); } );
+
+    QPushButton *Ver_asistencia=new QPushButton;
+    Ver_asistencia->setFont(QFont("Century Gothic",35,100));
+    Ver_asistencia->setText("Ver Asistencia");
+    Contenido_layout->addWidget(Ver_asistencia,1,0);
+    connect(Ver_asistencia, &QPushButton::clicked, [=]() {} );
+
+    Perfiles_widget->setLayout(Perfiles_layout);
+    Perfiles_ScrollArea->setWidget(Perfiles_widget);
+    Perfiles_ScrollArea->setStyleSheet("background-color: rgb(94, 68, 92);");
+    Perfiles_ScrollArea->setFixedWidth(ancho_res/3);
+
+    Contenido_widget->setLayout(Contenido_layout);
+
+    Total_layout->addWidget(Perfiles_ScrollArea,0,0);
+    Total_layout->addWidget(Contenido_widget,0,1);
+    Total_widget->setLayout(Total_layout);
+    Paginas.addWidget(Total_widget);
+}
+
+void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int iterator)
+{
+    //Borro todo lo que habia en Contenido_wid y lo saco del layout
+
+    QGridLayout *Contenido_aux= dynamic_cast<QGridLayout*>(Contenido_wid->layout());
+
+    while (Contenido_aux->count()>0) {
+        QLayoutItem* item = Contenido_aux->takeAt(0);
+        delete item;
+    }
+
+    delete Contenido_aux;
+    delete Contenido_wid;
+    total->removeWidget(Contenido_wid);
+
+    //Creo el reemplazo de Contenido_wid
+
+    QWidget *Cont_wid=new QWidget();
+    QGridLayout *Contenido=new QGridLayout();
+    Cont_wid->setLayout(Contenido);
+
+    //Si el iterador a llegado al final del vector o a regresado hasta al inicio volvemos a imprimir las opciones de
+    //empezar y ver asistencia
+
+    if(iterator==alumnos.size()||iterator<0){
+        QPushButton *Empezar=new QPushButton;
+        Empezar->setFont(QFont("Century Gothic",35,100));
+        Empezar->setText("Empezar");
+        Contenido->addWidget(Empezar,0,0);
+        connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,0); } );
+
+        QPushButton *Ver_asistencia=new QPushButton;
+        Ver_asistencia->setFont(QFont("Century Gothic",35,100));
+        Ver_asistencia->setText("Ver Asistencia");
+        Contenido->addWidget(Ver_asistencia,1,0);
+        connect(Ver_asistencia, &QPushButton::clicked, [=]() {} );
+    }
+
+    //Si no imprimimos el alumno que nos señale el iterador con sus opciones de si,no y regresar
+
+    else {
+
+        QLabel *imagen_alumno=new QLabel();
+        imagen_alumno->setPixmap(QPixmap("imgs/perfil_icon.png"));
+        imagen_alumno->setFixedSize(alto_res/3,alto_res/3);
+
+        QLabel *nombre_alumno=new QLabel();
+        nombre_alumno->setFont(QFont("Century Gothic",35,100));
+        nombre_alumno->setText(alumnos.at(iterator).nombres+" "+alumnos.at(iterator).apellidos);
+
+        QPushButton *si=new QPushButton;
+        si->setFont(QFont("Century Gothic",35,100));
+        si->setText("SI");
+        si->setStyleSheet("QPushButton { background-color: transparent;"
+                          "color: rgb(94, 68, 92);"
+                          "height: "+QString().number(alto_res/15)+"px;}"
+                          "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                          "color: rgb(254, 247, 195);}");
+        connect(si, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator+1); } );
+
+        QPushButton *no=new QPushButton;
+        no->setFont(QFont("Century Gothic",35,100));
+        no->setText("NO");
+        no->setStyleSheet("QPushButton { background-color: transparent;"
+                          "color: rgb(94, 68, 92);"
+                          "height: "+QString().number(alto_res/15)+"px;}"
+                          "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                          "color: rgb(254, 247, 195);}");
+        connect(no, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator+1); } );
+
+        QPushButton *regresar=new QPushButton;
+        regresar->setFont(QFont("Century Gothic",35,100));
+        regresar->setText("Regresar");
+        regresar->setStyleSheet("QPushButton { background-color: transparent;"
+                                "color: rgb(94, 68, 92);"
+                                "height: "+QString().number(alto_res/15)+"px;}"
+                                "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                                "color: rgb(254, 247, 195);}");
+        connect(regresar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator-1); } );
+
+        Contenido->addWidget(imagen_alumno,0,0);
+        Contenido->addWidget(nombre_alumno,1,0);
+        Contenido->addWidget(si,2,0);
+        Contenido->addWidget(no,3,0);
+        Contenido->addWidget(regresar,4,0);
+
+    }
+
+    //Guardamos el repuesto del Contenido_wid en la misma posicion que tenia
+
+    total->addWidget(Cont_wid,0,1);
+}
+
 void MainWindow::set_BurgerMenu(QGridLayout *total)
 {
         QGridLayout *burger =new QGridLayout;
@@ -328,7 +485,7 @@ void MainWindow::set_BurgerMenu(QGridLayout *total)
         asistencia->setIcon(pixmap);
         asistencia->setText("Asistencia");
         burger->addWidget(asistencia,2,0,Qt::AlignLeft);
-        connect(asistencia, &QPushButton::clicked, [=]() {} );
+        connect(asistencia, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(3); } );
 
         QPushButton *suenos=new QPushButton;
         pixmap.load("imgs/suenos_icon.png");
@@ -350,15 +507,26 @@ void MainWindow::presionar_ingresar(QString username,QString password)
     QJsonObject jsonObj( Archivo_json.object() );
     QJsonArray arreglo_usuarios( jsonObj["users"].toArray() );
 
+    QMessageBox msgBox;
+    msgBox.setText("El usuario no existe.");
+    msgBox.setIcon(QMessageBox::Warning);
+
     for (int i=0;i<arreglo_usuarios.size();i++) {
 
         QJsonObject usuario( arreglo_usuarios.at(i).toObject() );
 
         if(username == usuario["username"].toString() && password == usuario["password"].toString() ){
             Paginas.setCurrentIndex(1);
+            file.close();
+            return;
+        }
+        if(username == usuario["username"].toString()){
+            msgBox.setText("Contraseña Incorrecta.");
             break;
         }
     }
+
+    msgBox.exec();
 
     file.close();
 }
