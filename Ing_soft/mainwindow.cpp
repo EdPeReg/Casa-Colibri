@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setCentralWidget(&Paginas);
     this->showMaximized();
 
+
 }
 
 MainWindow::~MainWindow()
@@ -78,11 +79,10 @@ void MainWindow::set_Paginas()
     Paginas.setPalette(Paleta_colores);
     Paginas.setAutoFillBackground(true);
 
-    set_LoginPage();
-    set_MainMenuPage();
-    set_ProfilesPage();
+//    set_LoginPage();
+//    set_MainMenuPage();
+//    set_ProfilesPage();
     set_AttendancePage();
-
 
 }
 
@@ -265,7 +265,7 @@ void MainWindow::set_ProfilesPage()
     info->addWidget(agrega_alumno,3,0,Qt::AlignHCenter);
     connect(agrega_alumno, &QPushButton::clicked, [=]() {
         if(nombre_LE->text().size()>0&&apellidos_LE->text().size()>0){
-            alumnos.append(alumno(nombre_LE->text(),apellidos_LE->text()));
+            alumnos.append(alumno(nombre_LE->text(),apellidos_LE->text(),QDate().currentDate().toString()));
             MainWindow::guardar_alumnos();
             nombre_LE->clear();apellidos_LE->clear();
         }});
@@ -331,7 +331,7 @@ void MainWindow::set_AttendancePage()
     Empezar->setFont(QFont("Century Gothic",35,100));
     Empezar->setText("Empezar");
     Contenido_layout->addWidget(Empezar,0,0);
-    connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(Total_layout,Contenido_widget,0); } );
+    connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(Total_layout,Contenido_widget,alumnos.begin()); } );
 
     QPushButton *Ver_asistencia=new QPushButton;
     Ver_asistencia->setFont(QFont("Century Gothic",35,100));
@@ -352,7 +352,7 @@ void MainWindow::set_AttendancePage()
     Paginas.addWidget(Total_widget);
 }
 
-void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int iterator)
+void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVector<alumno>::iterator iterator)
 {
     //Borro todo lo que habia en Contenido_wid y lo saco del layout
 
@@ -376,12 +376,12 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int 
     //Si el iterador a llegado al final del vector o a regresado hasta al inicio volvemos a imprimir las opciones de
     //empezar y ver asistencia
 
-    if(iterator==alumnos.size()||iterator<0){
+    if(iterator==alumnos.end()||iterator<alumnos.begin()){
         QPushButton *Empezar=new QPushButton;
         Empezar->setFont(QFont("Century Gothic",35,100));
         Empezar->setText("Empezar");
         Contenido->addWidget(Empezar,0,0);
-        connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,0); } );
+        connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,alumnos.begin()); } );
 
         QPushButton *Ver_asistencia=new QPushButton;
         Ver_asistencia->setFont(QFont("Century Gothic",35,100));
@@ -396,11 +396,13 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int 
 
         QLabel *imagen_alumno=new QLabel();
         imagen_alumno->setPixmap(QPixmap("imgs/perfil_icon.png"));
-        imagen_alumno->setFixedSize(alto_res/3,alto_res/3);
+        imagen_alumno->setScaledContents(1);
+        imagen_alumno->setFixedSize(alto_res/5,alto_res/5);
 
         QLabel *nombre_alumno=new QLabel();
         nombre_alumno->setFont(QFont("Century Gothic",35,100));
-        nombre_alumno->setText(alumnos.at(iterator).nombres+" "+alumnos.at(iterator).apellidos);
+        nombre_alumno->setStyleSheet("color:rgb(94, 68, 92);");
+        nombre_alumno->setText(iterator->nombres+" "+iterator->apellidos);
 
         QPushButton *si=new QPushButton;
         si->setFont(QFont("Century Gothic",35,100));
@@ -410,7 +412,12 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int 
                           "height: "+QString().number(alto_res/15)+"px;}"
                           "QPushButton::pressed { background-color: rgb(94, 68, 92);"
                           "color: rgb(254, 247, 195);}");
-        connect(si, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator+1); } );
+        connect(si, &QPushButton::clicked, [=]() {
+            if(QDate().fromString(iterator->inicio_asistencia).daysTo(QDate().currentDate())+1==iterator->asistencia.size())
+                iterator->asistencia.replace(iterator->asistencia.size()-1,1,'1');
+            else
+                iterator->asistencia.push_back('1');
+            MainWindow::take_Attendance(total,Cont_wid,iterator+1); } );
 
         QPushButton *no=new QPushButton;
         no->setFont(QFont("Century Gothic",35,100));
@@ -420,7 +427,12 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int 
                           "height: "+QString().number(alto_res/15)+"px;}"
                           "QPushButton::pressed { background-color: rgb(94, 68, 92);"
                           "color: rgb(254, 247, 195);}");
-        connect(no, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator+1); } );
+        connect(no, &QPushButton::clicked, [=]() {
+            if(QDate().fromString(iterator->inicio_asistencia).daysTo(QDate().currentDate())+1==iterator->asistencia.size())
+                iterator->asistencia.replace(iterator->asistencia.size()-1,1,'0');
+            else
+                iterator->asistencia.push_back('0');
+            MainWindow::take_Attendance(total,Cont_wid,iterator+1); } );
 
         QPushButton *regresar=new QPushButton;
         regresar->setFont(QFont("Century Gothic",35,100));
@@ -432,13 +444,41 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, int 
                                 "color: rgb(254, 247, 195);}");
         connect(regresar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator-1); } );
 
-        Contenido->addWidget(imagen_alumno,0,0);
-        Contenido->addWidget(nombre_alumno,1,0);
+        Contenido->addWidget(imagen_alumno,0,0,1,0,Qt::AlignCenter);
+        Contenido->addWidget(nombre_alumno,1,0,1,0,Qt::AlignCenter);
         Contenido->addWidget(si,2,0);
-        Contenido->addWidget(no,3,0);
-        Contenido->addWidget(regresar,4,0);
+        Contenido->addWidget(no,2,1);
+        Contenido->addWidget(regresar,3,0,1,0,Qt::AlignCenter);
 
     }
+
+    //Guardamos el repuesto del Contenido_wid en la misma posicion que tenia
+
+    total->addWidget(Cont_wid,0,1);
+}
+
+void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid)
+{
+    //Borramos lo que tenia en contenido
+    QGridLayout *Contenido_aux= dynamic_cast<QGridLayout*>(Contenido_wid->layout());
+
+    while (Contenido_aux->count()>0) {
+        QLayoutItem* item = Contenido_aux->takeAt(0);
+        delete item;
+    }
+
+    delete Contenido_aux;
+    delete Contenido_wid;
+    total->removeWidget(Contenido_wid);
+
+    //Creo el reemplazo de Contenido_wid
+
+    QWidget *Cont_wid=new QWidget();
+    QGridLayout *Contenido=new QGridLayout();
+    Cont_wid->setLayout(Contenido);
+
+    //Mostramos calendario de todos
+    QTableWidget *table =new QTableWidget(5,alumnos.size()+1);
 
     //Guardamos el repuesto del Contenido_wid en la misma posicion que tenia
 
@@ -533,7 +573,7 @@ void MainWindow::presionar_ingresar(QString username,QString password)
 
 void MainWindow::guardar_alumnos()
 {
-    QJsonObject objetousuarios,usuario;
+    QJsonObject objetousuarios,usuario,date;
     QJsonDocument jsonDoc;
     QJsonArray ArregloUsuarios;
     QFile dbFile("src/alumnos.json");
@@ -544,6 +584,9 @@ void MainWindow::guardar_alumnos()
     for(auto it:alumnos){
         usuario["names"]=it.nombres;
         usuario["last_names"]=it.apellidos;
+        usuario["first"]=it.inicio_asistencia;
+        usuario["attendance"]=it.asistencia;
+
         ArregloUsuarios.append(usuario);
     }
 
@@ -568,8 +611,14 @@ void MainWindow::recuperar_alumnos()
 
     for (int i=0;i<arreglo_usuarios.size();i++) {
         QJsonObject usuario( arreglo_usuarios.at(i).toObject() );
-        alumnos.append(alumno(usuario["names"].toString(),usuario["last_names"].toString()));
+        alumnos.append(alumno(usuario["names"].toString(),usuario["last_names"].toString(),usuario["first"].toString(),usuario["attendance"].toString()));
     }
 
     file.close();
+
+    for (QVector<alumno>::iterator i=alumnos.begin();i!=alumnos.end();i++){
+        while(i->asistencia.size()<QDate().fromString(i->inicio_asistencia).daysTo(QDate().currentDate())){
+            i->asistencia.push_back('0');
+        }
+    }
 }

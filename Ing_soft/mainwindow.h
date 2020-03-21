@@ -18,6 +18,9 @@
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QMessageBox>
+#include <QSet>
+#include <QDate>
+#include <QTableWidget>
 
 namespace Ui {
 class MainWindow;
@@ -26,13 +29,22 @@ class MainWindow;
 struct alumno{
     QString nombres;
     QString apellidos;
+    QString inicio_asistencia;
+    QString asistencia;
 
     alumno(){
 
     }
-    alumno(QString nombres,QString apellidos){
+    alumno(QString nombres,QString apellidos,QString inicio_asistencia){
         this->nombres=nombres;
         this->apellidos=apellidos;
+        this->inicio_asistencia=inicio_asistencia;
+    }
+    alumno(QString nombres,QString apellidos,QString inicio_asistencia,QString asistencia){
+        this->nombres=nombres;
+        this->apellidos=apellidos;
+        this->inicio_asistencia=inicio_asistencia;
+        this->asistencia=asistencia;
     }
     bool operator <(alumno a){
         return this->nombres<a.nombres;
@@ -47,6 +59,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private:
     Ui::MainWindow *ui;
     QPalette Paleta_colores;
@@ -60,7 +73,8 @@ private:
     void set_MainMenuPage();
     void set_ProfilesPage();
     void set_AttendancePage();
-    void take_Attendance(QGridLayout *total, QWidget *Contenido, int iterator);
+    void take_Attendance(QGridLayout *total, QWidget *Contenido, QVector<alumno>::iterator iterator);
+    void show_Attendance(QGridLayout *total, QWidget *Contenido_wid);
     void set_BurgerMenu(QGridLayout *total);
 
     void presionar_ingresar(QString username,QString password);

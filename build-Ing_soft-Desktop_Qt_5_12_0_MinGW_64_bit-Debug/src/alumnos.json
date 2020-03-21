@@ -1,28 +1,34 @@
 {
     "alumnos": [
         {
+            "attendance": "1",
+            "first": "sáb. mar. 21 2020",
             "last_names": "Sandoval",
             "names": "Alan"
         },
         {
-            "last_names": "Ceballos",
+            "attendance": "1",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Perez",
+            "names": "Eduardo"
+        },
+        {
+            "attendance": "1",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Garcia",
+            "names": "Francisco"
+        },
+        {
+            "attendance": "1",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Reyes",
             "names": "Cesar"
         },
         {
-            "last_names": "Delgado",
-            "names": "Omar"
-        },
-        {
-            "last_names": "Dorantes",
-            "names": "Bogar"
-        },
-        {
-            "last_names": "Padilla",
-            "names": "Jordy"
-        },
-        {
-            "last_names": "Fuentes",
-            "names": "Eduardo"
+            "attendance": "1",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Villa",
+            "names": "Karina"
         }
     ]
 }
