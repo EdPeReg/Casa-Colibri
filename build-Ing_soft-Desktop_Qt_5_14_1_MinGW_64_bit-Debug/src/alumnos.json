@@ -1,0 +1,34 @@
+{
+    "alumnos": [
+        {
+            "attendance": "1000000100",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Sandoval",
+            "names": "Alan"
+        },
+        {
+            "attendance": "1000000100",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Perez",
+            "names": "Eduardo"
+        },
+        {
+            "attendance": "1000000000",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Garcia",
+            "names": "Francisco"
+        },
+        {
+            "attendance": "1000000100",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Reyes",
+            "names": "Cesar"
+        },
+        {
+            "attendance": "1000000000",
+            "first": "sáb. mar. 21 2020",
+            "last_names": "Villa",
+            "names": "Karina"
+        }
+    ]
+}

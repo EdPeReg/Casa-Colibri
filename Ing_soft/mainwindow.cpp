@@ -333,11 +333,12 @@ void MainWindow::set_AttendancePage()
     Contenido_layout->addWidget(Empezar,0,0);
     connect(Empezar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(Total_layout,Contenido_widget,alumnos.begin()); } );
 
+    // TO DO.
     QPushButton *Ver_asistencia=new QPushButton;
     Ver_asistencia->setFont(QFont("Century Gothic",35,100));
     Ver_asistencia->setText("Ver Asistencia");
     Contenido_layout->addWidget(Ver_asistencia,1,0);
-    connect(Ver_asistencia, &QPushButton::clicked, [=]() {} );
+    connect(Ver_asistencia, &QPushButton::clicked, [=]() { MainWindow::show_Attendance(Total_layout, Contenido_widget); } );
 
     Perfiles_widget->setLayout(Perfiles_layout);
     Perfiles_ScrollArea->setWidget(Perfiles_widget);
@@ -457,8 +458,12 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVec
     total->addWidget(Cont_wid,0,1);
 }
 
+// TO DO
 void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid)
 {
+    QStringList labelAsistencia= {"Asistencia"};
+    QStringList labelAlumnos = {};
+
     //Borramos lo que tenia en contenido
     QGridLayout *Contenido_aux= dynamic_cast<QGridLayout*>(Contenido_wid->layout());
 
@@ -471,18 +476,50 @@ void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid)
     delete Contenido_wid;
     total->removeWidget(Contenido_wid);
 
+    for(auto alumno : alumnos) {
+        labelAlumnos.append(alumno.nombres + " " + alumno.apellidos);
+    }
+
     //Creo el reemplazo de Contenido_wid
 
     QWidget *Cont_wid=new QWidget();
     QGridLayout *Contenido=new QGridLayout();
     Cont_wid->setLayout(Contenido);
 
+    QPushButton *regresar=new QPushButton;
+    regresar->setFont(QFont("Century Gothic",35,100));
+    regresar->setText("Regresar");
+    regresar->setStyleSheet("QPushButton { background-color: transparent;"
+                             "color: rgb(94, 68, 92);"
+                             "height: "+QString().number(alto_res/15)+"px;}"
+                             "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                             "color: rgb(254, 247, 195);}");
+
+    // NO FUNCIONA.
+    connect(regresar, &QPushButton::clicked, [=]() { MainWindow::set_AttendancePage(); } );
+
     //Mostramos calendario de todos
-    QTableWidget *table =new QTableWidget(5,alumnos.size()+1);
+    QTableWidget *table =new QTableWidget(alumnos.size(), 1);
+
+    table->setHorizontalHeaderLabels(labelAsistencia);
+    table->setVerticalHeaderLabels(labelAlumnos);
+    table->setFixedSize(ancho_res/2,alto_res/3*2);
+
+    int column(0);
+    // Iterar entre las asistencias de nuestros alumnos y obtener el ultimo numero.
+    // Es necesario convertir a QString porque back() nos regresa QChar.
+    for(auto alumno : alumnos) {
+        QTableWidgetItem *item = new QTableWidgetItem(QString(alumno.asistencia.back()));
+        table->setItem(0,column,item);
+        item->setBackground(Qt::white);
+        column++;
+    }
 
     //Guardamos el repuesto del Contenido_wid en la misma posicion que tenia
 
     total->addWidget(Cont_wid,0,1);
+    Contenido->addWidget(regresar,3,0,1,0,Qt::AlignBottom);
+    Contenido->addWidget(table,3,0,1,0,Qt::AlignTop);
 }
 
 void MainWindow::set_BurgerMenu(QGridLayout *total)
