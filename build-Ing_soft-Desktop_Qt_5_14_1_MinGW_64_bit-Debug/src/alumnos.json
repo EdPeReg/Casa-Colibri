@@ -1,16 +1,16 @@
 {
     "alumnos": [
         {
-            "attendance": "100101",
-            "first": "lun. abr. 30 2020",
-            "last_names": "Perez",
-            "names": "Eduardo "
-        },
-        {
             "attendance": "01010011",
             "first": "lun. abr. 28 2020",
             "last_names": "solis",
             "names": "Javier"
+        },
+        {
+            "attendance": "100101",
+            "first": "lun. abr. 30 2020",
+            "last_names": "Perez",
+            "names": "Eduardo "
         },
         {
             "attendance": "11011",
@@ -43,7 +43,7 @@
             "names": "Villa"
         },
         {
-            "attendance": "0",
+            "attendance": "1",
             "first": "mar. may. 5 2020",
             "last_names": "la tigresa",
             "names": "Pepe"

@@ -640,6 +640,8 @@ moc_mainwindow.cpp: ../Casa-Colibri/Ing_soft/mainwindow.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/QCalendarWidget \
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qcalendarwidget.h \
 		moc_predefs.h \
 		C:/Qt/5.14.1/mingw73_64/bin/moc.exe
 	C:\Qt\5.14.1\mingw73_64\bin\moc.exe $(DEFINES) --include "D:/Eduardo/Documents/QUINTO SEMESTRE/build-Ing_soft-Desktop_Qt_5_14_1_MinGW_64_bit-Debug/moc_predefs.h" -IC:/Qt/5.14.1/mingw73_64/mkspecs/win32-g++ -I"D:/Eduardo/Documents/QUINTO SEMESTRE/Casa-Colibri/Ing_soft" -IC:/Qt/5.14.1/mingw73_64/include -IC:/Qt/5.14.1/mingw73_64/include/QtWidgets -IC:/Qt/5.14.1/mingw73_64/include/QtGui -IC:/Qt/5.14.1/mingw73_64/include/QtANGLE -IC:/Qt/5.14.1/mingw73_64/include/QtCore -I. -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Tools/mingw730_64/x86_64-w64-mingw32/include ..\Casa-Colibri\Ing_soft\mainwindow.h -o moc_mainwindow.cpp
@@ -838,7 +840,9 @@ main.o: ../Casa-Colibri/Ing_soft/main.cpp ../Casa-Colibri/Ing_soft/mainwindow.h 
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qrubberband.h
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/QCalendarWidget \
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qcalendarwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ..\Casa-Colibri\Ing_soft\main.cpp
 
 mainwindow.o: ../Casa-Colibri/Ing_soft/mainwindow.cpp ../Casa-Colibri/Ing_soft/mainwindow.h \
@@ -1013,6 +1017,8 @@ mainwindow.o: ../Casa-Colibri/Ing_soft/mainwindow.cpp ../Casa-Colibri/Ing_soft/m
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qstyle.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/QCalendarWidget \
+		C:/Qt/5.14.1/mingw73_64/include/QtWidgets/qcalendarwidget.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ..\Casa-Colibri\Ing_soft\mainwindow.cpp
 
