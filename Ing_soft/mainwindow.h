@@ -21,16 +21,21 @@
 #include <QSet>
 #include <QDate>
 #include <QTableWidget>
+#include <QCalendarWidget>
 
 namespace Ui {
 class MainWindow;
 }
 
+enum Mes { enero = 1, febrero, marzo, abril, mayo, junio,
+           julio, agosto, septiembre, octubre, noviembre, diciembre };
+
 struct alumno{
     QString nombres;
     QString apellidos;
     QString inicio_asistencia;
-    QString asistencia;
+    QString asistencia = " ";
+    bool cambioMes = false;
 
     alumno(){
 
@@ -66,6 +71,7 @@ private:
     QStackedWidget Paginas;
     QLineEdit LE_style;
     QVector<alumno> alumnos;
+    QTableWidget *table;
 
     void set_Palette();
     void set_Paginas();
@@ -74,12 +80,14 @@ private:
     void set_ProfilesPage();
     void set_AttendancePage();
     void take_Attendance(QGridLayout *total, QWidget *Contenido, QVector<alumno>::iterator iterator);
-    void show_Attendance(QGridLayout *total, QWidget *Contenido_wid);
+    void show_Attendance(QGridLayout *total, QWidget *Contenido_wid, QVector<alumno>::iterator iterator);
     void set_BurgerMenu(QGridLayout *total);
 
     void presionar_ingresar(QString username,QString password);
     void guardar_alumnos();
     void recuperar_alumnos();
+private slots:
+    void on_calendarWidget_clicked(const QDate &date);
 };
 
 #endif // MAINWINDOW_H

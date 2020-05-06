@@ -1,3 +1,4 @@
+#include <iostream>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #define ancho_res QApplication::desktop()->width()
@@ -79,9 +80,9 @@ void MainWindow::set_Paginas()
     Paginas.setPalette(Paleta_colores);
     Paginas.setAutoFillBackground(true);
 
-//    set_LoginPage();
-//    set_MainMenuPage();
-//    set_ProfilesPage();
+    //set_LoginPage();
+    //set_MainMenuPage();
+    //set_ProfilesPage();
     set_AttendancePage();
 
 }
@@ -338,7 +339,7 @@ void MainWindow::set_AttendancePage()
     Ver_asistencia->setFont(QFont("Century Gothic",35,100));
     Ver_asistencia->setText("Ver Asistencia");
     Contenido_layout->addWidget(Ver_asistencia,1,0);
-    connect(Ver_asistencia, &QPushButton::clicked, [=]() { MainWindow::show_Attendance(Total_layout, Contenido_widget); } );
+    connect(Ver_asistencia, &QPushButton::clicked, [=]() { MainWindow::show_Attendance(Total_layout, Contenido_widget,alumnos.begin()); } );
 
     Perfiles_widget->setLayout(Perfiles_layout);
     Perfiles_ScrollArea->setWidget(Perfiles_widget);
@@ -388,13 +389,12 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVec
         Ver_asistencia->setFont(QFont("Century Gothic",35,100));
         Ver_asistencia->setText("Ver Asistencia");
         Contenido->addWidget(Ver_asistencia,1,0);
-        connect(Ver_asistencia, &QPushButton::clicked, [=]() {} );
+        connect(Ver_asistencia, &QPushButton::clicked, [=]() {MainWindow::show_Attendance(total, Cont_wid, alumnos.begin());} );
     }
 
     //Si no imprimimos el alumno que nos señale el iterador con sus opciones de si,no y regresar
 
     else {
-
         QLabel *imagen_alumno=new QLabel();
         imagen_alumno->setPixmap(QPixmap("imgs/perfil_icon.png"));
         imagen_alumno->setScaledContents(1);
@@ -459,7 +459,7 @@ void MainWindow::take_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVec
 }
 
 // TO DO
-void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid)
+void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVector<alumno>::iterator iterator)
 {
     QStringList labelAsistencia= {"Asistencia"};
     QStringList labelAlumnos = {};
@@ -494,16 +494,26 @@ void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid)
                              "height: "+QString().number(alto_res/15)+"px;}"
                              "QPushButton::pressed { background-color: rgb(94, 68, 92);"
                              "color: rgb(254, 247, 195);}");
+    connect(regresar, &QPushButton::clicked, [=]() { MainWindow::take_Attendance(total,Cont_wid,iterator-1); } );
 
-    // NO FUNCIONA.
-    connect(regresar, &QPushButton::clicked, [=]() { MainWindow::set_AttendancePage(); } );
+    // Creamos nuestro calendario.
+    QCalendarWidget *calendar = new QCalendarWidget();
+    calendar->setGridVisible(true);
 
-    //Mostramos calendario de todos
-    QTableWidget *table =new QTableWidget(alumnos.size(), 1);
+    // Nuestra cabecera por default no se ve, colorear con negro los numeros para que se vea.
+    calendar->setStyleSheet("color: rgb(0,0,0);");
+
+    // Si el usuario dio click a un dia del calendario.
+    connect(calendar, &QCalendarWidget::clicked, this, &MainWindow::on_calendarWidget_clicked);
+
+    // Tabla donde mostrara las asistencias.
+    table = new QTableWidget(alumnos.size(), 1);
 
     table->setHorizontalHeaderLabels(labelAsistencia);
     table->setVerticalHeaderLabels(labelAlumnos);
-    table->setFixedSize(ancho_res/2,alto_res/3*2);
+    table->showGrid();
+    table->setStyleSheet("background-color: white");
+    //table->setFixedSize(ancho_res/2,alto_res/3*2);
 
     int column(0);
     // Iterar entre las asistencias de nuestros alumnos y obtener el ultimo numero.
@@ -519,7 +529,8 @@ void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid)
 
     total->addWidget(Cont_wid,0,1);
     Contenido->addWidget(regresar,3,0,1,0,Qt::AlignBottom);
-    Contenido->addWidget(table,3,0,1,0,Qt::AlignTop);
+    Contenido->addWidget(calendar,3,0,1,0,Qt::AlignTop);
+    Contenido->addWidget(table,3,0,1,0,Qt::AlignCenter);
 }
 
 void MainWindow::set_BurgerMenu(QGridLayout *total)
@@ -656,6 +667,306 @@ void MainWindow::recuperar_alumnos()
     for (QVector<alumno>::iterator i=alumnos.begin();i!=alumnos.end();i++){
         while(i->asistencia.size()<QDate().fromString(i->inicio_asistencia).daysTo(QDate().currentDate())){
             i->asistencia.push_back('0');
+        }
+    }
+}
+
+
+/* Actualizara la tabla de asistencias dependiendo del dia escogido en el calendario. */
+void MainWindow::on_calendarWidget_clicked(const QDate& date) {
+    // La razon del porque usamos un vector de pares es para obtener el numero
+    // del mes del alumno que fue registrado, pues esta guardado como cadena de caracteres,
+    // no se puede comparar "mar." == 3.
+    QVector< QPair<QString, int> > mesNum = { {"ene.",1}, {"feb.",2}, {"mar.", 3}, {"abr.", 4},
+                                             {"may.", 5}, {"jun.",6}, {"jul.", 7}, {"ago.",8},
+                                             {"sep.", 9}, {"oct.",10}, {"nov.",11}, {"dic.", 12} };
+
+    // Columna para saber la posicion de los items en la tabla.
+    int column(0);
+    int diaMesAsi;
+
+    // Obtener el dia y mes actual, esto se hace porque la ultima asistencia tomada seria
+    // el dia y mes actual.
+    QDate d = QDate::currentDate();
+    QString diaActual = d.toString("d");
+    QString mesActual = d.toString("M");
+
+    // Iterar en cada alumno para encontrar su inicio de asistencia.
+    for(auto alumno : alumnos) {
+        QString inicioAsistencia = alumno.inicio_asistencia;
+
+        // Nos interesa el mes y dia del inicio de la asistencia, separaramos el QString.
+        // donde parts[1] = mes, parts[2] = dia.
+        QStringList parts = inicioAsistencia.split(' ');
+        int diaInicioAs = parts[2].toInt();
+        QString diaMesAs = parts[1];
+
+        // Iteramos en nuestros meses para encontrar a que numero pertenece el mes.
+        for(int i = 0; i < mesNum.size(); i++) {
+            if(diaMesAs == mesNum[i].first) {
+                diaMesAsi = mesNum[i].second;
+                break;
+            }
+        }
+
+        // Si el mes seleccionado en el calendario coincide con el mes de ingreso del alumno
+        // Y ademas el dia de ingreso coincide con el dia seleccionado en el calendario.
+        if(date.month() == diaMesAsi and date.day() == diaInicioAs) {
+            // Ingresar la asistencia correspondiente a nuestra tabla.
+            // En la posicion 0 porque es la primera asistencia que tiene el alumno.
+            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(0))));
+            table->setItem(0,column,item);
+            item->setBackground(Qt::white);
+            column++;
+        } else {
+            // Iterar en nuestra asistencia del alumno.
+            for(int i = 0; i < alumno.asistencia.size(); i++) {
+                // Como cada bit de nuestro string es un dia y pertenece a un mes y voy a estar iterando
+                // y revisando uno por uno, ocupo saber en que momento cambio de mes para reiniciar el dia y el mes.
+                // Empezando en el mes que inicio la asistencia del alumno.
+                switch(diaMesAsi) {
+                    case enero:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case febrero:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 28){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case marzo:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case abril:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QString elemento = alumno.asistencia.at(i);
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 30){
+                            diaInicioAs = 1;
+                            diaMesAsi++;
+                            alumno.cambioMes = true;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case mayo:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QString elemento = alumno.asistencia.at(i);
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs = 1;
+                            diaMesAsi++;
+                            alumno.cambioMes = true;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case junio:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case julio:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case agosto:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case septiembre:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case octubre:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 30){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                    case noviembre:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 30){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+
+                    case diciembre:
+                        // Se encontro el dia, imprimir la asistencia de ese dia en la tabla.
+                        if(date.day() == diaInicioAs) {
+                            QTableWidgetItem *item = new QTableWidgetItem((QString(alumno.asistencia.at(i))));
+                            table->setItem(0,column,item);
+                            item->setBackground(Qt::white);
+                            column++;
+                            i = alumno.asistencia.size();
+                        }
+                        // Habra un cambio de mes.
+                        else if(diaInicioAs == 31){
+                            diaInicioAs++;
+                            diaMesAsi++;
+                        }
+                        // Aun no hay cambio de mes, solamente incrementar el dia.
+                        else {
+                            diaInicioAs++;
+                        }
+                    break;
+                } // switch
+            }
+        }
+
+        if(!(date.month() == diaMesAsi and date.day() >= diaInicioAs)) {
+            QTableWidgetItem *item = new QTableWidgetItem((QString("-")));
+            table->setItem(0,column,item);
+            item->setBackground(Qt::white);
+            column++;
         }
     }
 }
