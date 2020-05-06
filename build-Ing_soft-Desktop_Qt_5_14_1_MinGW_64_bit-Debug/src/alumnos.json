@@ -1,34 +1,52 @@
 {
     "alumnos": [
         {
-            "attendance": "1000000100",
-            "first": "sáb. mar. 21 2020",
+            "attendance": "100101",
+            "first": "lun. abr. 30 2020",
+            "last_names": "Perez",
+            "names": "Eduardo "
+        },
+        {
+            "attendance": "01010011",
+            "first": "lun. abr. 28 2020",
+            "last_names": "solis",
+            "names": "Javier"
+        },
+        {
+            "attendance": "11011",
+            "first": "lun. may. 1 2020",
+            "last_names": "Guztavo",
+            "names": "Pepe"
+        },
+        {
+            "attendance": "1",
+            "first": "mar. may. 5 2020",
             "last_names": "Sandoval",
             "names": "Alan"
         },
         {
-            "attendance": "1000000100",
-            "first": "sáb. mar. 21 2020",
-            "last_names": "Perez",
-            "names": "Eduardo"
+            "attendance": "1",
+            "first": "mar. may. 5 2020",
+            "last_names": "Francisco",
+            "names": "Garcia"
         },
         {
-            "attendance": "1000000000",
-            "first": "sáb. mar. 21 2020",
-            "last_names": "Garcia",
-            "names": "Francisco"
+            "attendance": "1",
+            "first": "mar. may. 5 2020",
+            "last_names": "Cesar",
+            "names": "Reyes"
         },
         {
-            "attendance": "1000000100",
-            "first": "sáb. mar. 21 2020",
-            "last_names": "Reyes",
-            "names": "Cesar"
+            "attendance": "1",
+            "first": "mar. may. 5 2020",
+            "last_names": "Karina",
+            "names": "Villa"
         },
         {
-            "attendance": "1000000000",
-            "first": "sáb. mar. 21 2020",
-            "last_names": "Villa",
-            "names": "Karina"
+            "attendance": "0",
+            "first": "mar. may. 5 2020",
+            "last_names": "la tigresa",
+            "names": "Pepe"
         }
     ]
 }
