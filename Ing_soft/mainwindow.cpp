@@ -80,10 +80,12 @@ void MainWindow::set_Paginas()
     Paginas.setPalette(Paleta_colores);
     Paginas.setAutoFillBackground(true);
 
-    //set_LoginPage();
-    //set_MainMenuPage();
-    //set_ProfilesPage();
+
+    set_LoginPage();
+    set_MainMenuPage();
+    set_ProfilesPage();
     set_AttendancePage();
+    set_MoodPage();
 
 }
 
@@ -144,11 +146,12 @@ void MainWindow::set_MainMenuPage()
     QPushButton *perfiles=new QPushButton;
     perfiles->setText("Perfiles");
     total->addWidget(perfiles,0,0);
-    connect(perfiles, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(2); } );
+    connect(perfiles, &QPushButton::clicked, [=]() {Paginas.setCurrentIndex(2); } );
 
     QPushButton *mood=new QPushButton;
     mood->setText("Estados\nde\nAnimo");
     total->addWidget(mood,0,1);
+    connect(mood, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(4); } );
 
     QPushButton *asistencia=new QPushButton;
     asistencia->setText("Asistencia");
@@ -174,6 +177,8 @@ void MainWindow::set_MainMenuPage()
 
 void MainWindow::set_ProfilesPage()
 {
+    //alumnos.clear();
+    //recuperar_alumnos();
     QWidget *MainMenu=new QWidget;
     QGridLayout *total =new QGridLayout;
     QGridLayout *busca =new QGridLayout;
@@ -194,7 +199,7 @@ void MainWindow::set_ProfilesPage()
     burger_icon->setIcon(pixmap);
     burger_icon->setIconSize(QSize(alto_res/25,alto_res/25));
     busca->addWidget(burger_icon,0,0);
-    connect(burger_icon, &QPushButton::clicked, [=]() {MainWindow::set_BurgerMenu(total);} );
+    connect(burger_icon, &QPushButton::clicked, [=]() {set_BurgerMenu(total);} );
 
     QLabel *text_busca=new QLabel;
     text_busca->setText("Busca");
@@ -261,20 +266,37 @@ void MainWindow::set_ProfilesPage()
     apellidos_LE->setAlignment(Qt::AlignCenter);
     info->addWidget(apellidos_LE,2,0,Qt::AlignHCenter);
 
+    QScrollArea *sa_perfiles =new QScrollArea;
+    sa_perfiles->setWidgetResizable(true); //FRANCISCO: Para que el scroll Area modifique su tamaño al agrear alumnos
+    QWidget *wid_perfiles=new QWidget;
+
     QPushButton *agrega_alumno=new QPushButton;
     agrega_alumno->setText("Agregar");
     info->addWidget(agrega_alumno,3,0,Qt::AlignHCenter);
-    connect(agrega_alumno, &QPushButton::clicked, [=]() {
+    connect(agrega_alumno, &QPushButton::clicked, [=]( ) {
         if(nombre_LE->text().size()>0&&apellidos_LE->text().size()>0){
             alumnos.append(alumno(nombre_LE->text(),apellidos_LE->text(),QDate().currentDate().toString()));
             MainWindow::guardar_alumnos();
             nombre_LE->clear();apellidos_LE->clear();
+
+            //FRANCISCO: Agregué las siguientes lineas para que vuelva a cargar los alumnos cuando se agregue uno nuevo
+            for (int i=0;i<alumnos.size();i++) {
+                QPushButton *alumno=new QPushButton;
+                alumno->setStyleSheet("QPushButton { background-color: transparent;"
+                                      "color: rgb(94, 68, 92);"
+                                      "height: "+QString().number(alto_res/15)+"px;}"
+                                      "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                                      "color: rgb(254, 247, 195);}");
+                alumno->setFont(QFont("Century Gothic",15,100));
+                alumno->setIconSize(QSize(alto_res/20,alto_res/20));
+                alumno->setIcon(pixmap);
+                alumno->setText(alumnos.at(i).nombres+" "+alumnos.at(i).apellidos);
+                perfiles->addWidget(alumno,i,0);
+                connect(alumno, &QPushButton::clicked, [=]() {} );
+            }
         }});
 
     //UNION DE TODOS LOS LAYOUT
-
-    QScrollArea *sa_perfiles =new QScrollArea;
-    QWidget *wid_perfiles=new QWidget;
     wid_perfiles->setLayout(perfiles);
     wid_perfiles->setStyleSheet("background-color: rgb(254, 247, 195);");
     sa_perfiles->setWidget(wid_perfiles);
@@ -289,6 +311,7 @@ void MainWindow::set_ProfilesPage()
     total->addWidget(sa_perfiles,1,0);
     total->addWidget(wid_info,1,1);
     MainMenu->setLayout(total);
+
     Paginas.addWidget(MainMenu);
 }
 
@@ -318,7 +341,7 @@ void MainWindow::set_AttendancePage()
                               "color: rgb(254, 247, 195);"
                               "width: "+QString().number(ancho_res/4)+"px;"
                               "height: "+QString().number(alto_res/15)+"px;}"
-                              "QPushButton::pressed { background-color: rgb(254, 247, 195);"
+                              "QPushButton::pressed { background-color: rgb(94, 68, 92);"
                               "color: rgb(94, 68, 92);}");
         alumno->setFont(QFont("Century Gothic",15,100));
         alumno->setIconSize(QSize(alto_res/20,alto_res/20));
@@ -533,6 +556,208 @@ void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVec
     Contenido->addWidget(table,3,0,1,0,Qt::AlignCenter);
 }
 
+void MainWindow::set_MoodPage()
+{
+    QWidget *Total_widget=new QWidget; //Widget general
+    QGridLayout *Total_layout =new QGridLayout; //Layout de toda la página
+
+    QWidget *header_widget = new QWidget;
+    QGridLayout *header =new QGridLayout; //Layout del header, incluye el botón burger y el titulo
+
+    QWidget *Perfiles_Widget = new QWidget; //Widget de los alumnos
+    QGridLayout *Perfiles_layout = new QGridLayout;//Layout de los alumnos, dentro del cuadro
+    QScrollArea *Perfiles_ScrollArea =new QScrollArea;
+    Perfiles_ScrollArea->setWidgetResizable(true);
+
+    QGridLayout *Contenido_layout =new QGridLayout;//Layout que incluye a la caja
+    QGroupBox *Contenido_Widget = new QGroupBox(tr("Estado de ánimo del alumno")); // Widget de la Caja
+    QVBoxLayout *vbox = new QVBoxLayout; //Layout de lo que hay dentro de la Caja
+
+    Total_widget->setStyleSheet("QWidget { background-color: rgb(254, 247, 195);}"
+                                "QPushButton { background-color: transparent;"
+                                "color: rgb(94, 68, 92);"
+                                "height: "+QString().number(alto_res/15)+"px;"
+                                "width: "+QString().number(ancho_res/4)+"px;}"
+                                "QPushButton::pressed { background-color: rgb(94, 68, 92);"
+                                "color: rgb(254, 247, 195);}");
+
+
+    //HEADER
+    QPushButton *burger_icon=new QPushButton;
+    QPixmap pixmap("imgs/burger_menu.png");
+    QPainter painter(&pixmap);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+    painter.fillRect(pixmap.rect(),QColor(94, 68, 92/*254, 247, 195*/));
+    painter.end();
+
+    burger_icon->setFixedSize(alto_res/21,alto_res/21);
+    burger_icon->setStyleSheet("border-radius: "+QString().number((alto_res/21)/2)+"px;");
+    burger_icon->setIcon(pixmap);
+    burger_icon->setIconSize(QSize(alto_res/25,alto_res/25));
+    header->addWidget(burger_icon,0,0);
+    connect(burger_icon, &QPushButton::clicked, [=]() {MainWindow::set_BurgerMenu2(Total_layout);} );
+
+    QLabel *titulo=new QLabel;
+    titulo->setText("Registro de estado de Animo");
+    titulo->setPalette(Paleta_colores);
+    titulo->setFont(QFont("Century Gothic",20,100));
+    header->addWidget(titulo,0,2,Qt::AlignLeft);
+
+    //Conectando header al Layout del Header
+    header_widget->setLayout(header);
+
+    //CAJA
+
+    //Agregando Line Edit para el titulo del estado de ánimo
+    QLineEdit *estado=new QLineEdit;
+    estado->setPlaceholderText("¿Cómo se encuentra hoy?");
+    estado->setAlignment(Qt::AlignCenter);
+    vbox->addWidget(estado,1,Qt::AlignCenter);
+
+    //Agregando Text Box para los detalles del estado de ánimo
+    QTextEdit *detalles=new QTextEdit;
+    detalles->setPlaceholderText("Ingresa los detalles de su estado de ánimo");
+    detalles->setAlignment(Qt::AlignLeft);
+    vbox->addWidget(detalles,2,Qt::AlignCenter);
+
+    //Agregando botón guardar
+    QPushButton *guardar = new QPushButton;
+    guardar->setText("Guardar");
+    guardar->setFont(QFont("Century Gothic",20,100));
+    vbox->addWidget(guardar,3,Qt::AlignCenter);
+
+    //Conectando caja al Widget de contenido y a su vez conectando el contenido al layout de contenido
+    Contenido_Widget->setLayout(vbox);
+    Contenido_layout->addWidget(Contenido_Widget);
+
+    //Creando iterador para moverse entre los alumnos del json
+    QVector<alumno>::iterator iterator = alumnos.begin();
+
+    //Etiquetas que mostrarán el animo del alumno seleccionado dentro de la caja
+    QLabel *mood_alumno = new QLabel;
+    QLabel *details_alumno = new QLabel;
+    QLabel *auxiliar_Name = new QLabel;
+
+    for (int i=0;i<alumnos.size();i++) {
+        iterator = alumnos.begin()+i;
+        QPushButton *alumno = new QPushButton;
+        pixmap.load("imgs/perfil_icon.png");
+        alumno->setStyleSheet("QPushButton { background-color: transparent;"
+                              "color: rgb(254, 247, 195);"
+                              "height: "+QString().number(alto_res/15)+"px;}"
+                              "QPushButton::pressed { background-color: rgb(254, 247, 195);"
+                              "color: rgb(94, 68, 92);}");
+        alumno->setFont(QFont("Century Gothic",15,100));
+        alumno->setIconSize(QSize(alto_res/20,alto_res/20));
+        alumno->setIcon(pixmap);
+        alumno->setText(alumnos.at(i).nombres+" "+alumnos.at(i).apellidos);
+        Perfiles_layout->addWidget(alumno,i,0);
+        connect(alumno, &QPushButton::clicked, [=]() {
+            //Borramos los widgets para que se sobrescriban
+            vbox->removeWidget(mood_alumno);
+            vbox->removeWidget(details_alumno);
+
+            auxiliar_Name->setText(iterator->nombres+iterator->apellidos);
+
+            //Agregando widgets de Estado y detalles cargados desde el json
+            mood_alumno->setText("Estado actual: " + iterator->estado_animo);
+            mood_alumno->setFont(QFont("Century Gothic",12,100));
+            vbox->addWidget(mood_alumno,4,Qt::AlignLeft);
+
+            details_alumno->setText("Detalles: " + iterator->detalles_animo);
+            details_alumno->setFont(QFont("Century Gothic",12,100));
+            vbox->addWidget(details_alumno,5,Qt::AlignLeft);
+        });
+    }
+
+    connect(guardar, &QPushButton::clicked, [=]() {
+        QVector<alumno>::iterator iterator2 = alumnos.begin();
+        for (int i=0;i<alumnos.size();i++) {
+            iterator2 = alumnos.begin()+i;
+            if (iterator2->nombres + iterator2->apellidos == auxiliar_Name->text()){
+                //Convirtiendo estado y detalles a QStrings
+                const QString a = estado->text();
+                QString b = detalles->toPlainText();
+                //Editando atributos en el alumno en json
+                iterator2->estado_animo.replace(0,iterator2->estado_animo.size(),a);
+                iterator2->detalles_animo.replace(0,iterator2->detalles_animo.size(),b);
+                //Borramos los widgets para que se sobrescriban
+                vbox->removeWidget(mood_alumno);
+                vbox->removeWidget(details_alumno);
+                //Agregando widgets de Estado y detalles cargados desde el json
+                mood_alumno->setText("Estado actual: " + a);
+                mood_alumno->setFont(QFont("Century Gothic",12,100));
+                vbox->addWidget(mood_alumno,4,Qt::AlignLeft);
+
+                details_alumno->setText("Detalles: " + b);
+                details_alumno->setFont(QFont("Century Gothic",12,100));
+                vbox->addWidget(details_alumno,5,Qt::AlignLeft);
+            }
+        }
+    });
+
+    //BOTON PARA ACTUALIZAR PERFILES
+    QPushButton *actualizar_perfiles=new QPushButton;
+    actualizar_perfiles->setText("Actualizar perfiles");
+    actualizar_perfiles->setFont(QFont("Century Gothic",20,100));
+    actualizar_perfiles->setIconSize(QSize(alto_res/40,alto_res/40));
+    header->addWidget(actualizar_perfiles,0,1,Qt::AlignLeft);
+    connect(actualizar_perfiles, &QPushButton::clicked, [=]( ) {
+            QVector<alumno>::iterator iterator = alumnos.begin();
+            QPixmap pixmap("imgs/burger_menu.png");
+            QPainter painter(&pixmap);
+            painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+            painter.fillRect(pixmap.rect(),QColor(94, 68, 92/*254, 247, 195*/));
+            painter.end();
+            for (int i=0;i<alumnos.size();i++) {
+                iterator = alumnos.begin()+i;
+                QPushButton *alumno = new QPushButton;
+                pixmap.load("imgs/perfil_icon.png");
+                alumno->setStyleSheet("QPushButton { background-color: transparent;"
+                                      "color: rgb(254, 247, 195);"
+                                      "height: "+QString().number(alto_res/15)+"px;}"
+                                      "QPushButton::pressed { background-color: rgb(254, 247, 195);"
+                                      "color: rgb(94, 68, 92);}");
+                alumno->setFont(QFont("Century Gothic",15,100));
+                alumno->setIconSize(QSize(alto_res/20,alto_res/20));
+                alumno->setIcon(pixmap);
+                alumno->setText(alumnos.at(i).nombres+" "+alumnos.at(i).apellidos);
+                Perfiles_layout->addWidget(alumno,i,0);
+                connect(alumno, &QPushButton::clicked, [=]() {
+                    //Borramos los widgets para que se sobrescriban
+                    vbox->removeWidget(mood_alumno);
+                    vbox->removeWidget(details_alumno);
+
+                    auxiliar_Name->setText(iterator->nombres+iterator->apellidos);
+
+                    //Agregando widgets de Estado y detalles cargados desde el json
+                    mood_alumno->setText("Estado actual: " + iterator->estado_animo);
+                    mood_alumno->setFont(QFont("Century Gothic",12,100));
+                    vbox->addWidget(mood_alumno,4,Qt::AlignLeft);
+
+                    details_alumno->setText("Detalles: " + iterator->detalles_animo);
+                    details_alumno->setFont(QFont("Century Gothic",12,100));
+                    vbox->addWidget(details_alumno,5,Qt::AlignLeft);
+                });
+            }
+        });
+
+    //Conectando layout de alumnos al widget de alumnos
+    //A su vez el widget de alumnos al layout general de alumnos y a la Scroll Area de alumnos
+    Perfiles_Widget->setLayout(Perfiles_layout);
+    Perfiles_ScrollArea->setWidget(Perfiles_Widget);
+    Perfiles_ScrollArea->setFixedWidth(ancho_res/3);
+    Perfiles_ScrollArea->setStyleSheet("background-color: rgb(94, 68, 92);");
+
+    //Conectando
+    Total_layout->addWidget(header_widget,0,0,1,0);
+    Total_layout->addWidget(Perfiles_ScrollArea,1,0);
+    Total_layout->addWidget(Contenido_Widget,1,1);
+    Total_widget->setLayout(Total_layout);
+    Paginas.addWidget(Total_widget);
+}
+
+
 void MainWindow::set_BurgerMenu(QGridLayout *total)
 {
         QGridLayout *burger =new QGridLayout;
@@ -565,7 +790,7 @@ void MainWindow::set_BurgerMenu(QGridLayout *total)
         animo->setIcon(pixmap);
         animo->setText("Estado de Animo");
         burger->addWidget(animo,1,0,Qt::AlignLeft);
-        connect(animo, &QPushButton::clicked, [=]() {} );
+        connect(animo, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(4);} );
 
 
         QPushButton *asistencia=new QPushButton;
@@ -586,6 +811,58 @@ void MainWindow::set_BurgerMenu(QGridLayout *total)
         total->addWidget(wid_burger,0,0,0,1);
 }
 
+void MainWindow::set_BurgerMenu2(QGridLayout *total)
+{
+        QGridLayout *burger =new QGridLayout;
+        QWidget *wid_burger=new QWidget;
+
+        wid_burger->setStyleSheet("QPushButton { background-color: transparent;"
+                                  "color: rgb(254, 247, 195);"
+                                  "width: "+QString().number(ancho_res/3)+"px;max-width:"+QString().number(ancho_res/3)+"px;"
+                                  "height: "+QString().number(alto_res/10)+"px;max-height:"+QString().number(alto_res/10)+"px;"
+                                  "font: bold "+QString().number(alto_res/25)+"px \"Century Gothic\";"
+                                  "icon-size: "+QString().number(alto_res/15)+"px;}"
+                                  "QPushButton::pressed { background-color: rgb(254, 247, 195);"
+                                  "color: rgb(94, 68, 92);}"
+                                  "QWidget {background-color: rgb(94, 68, 92);}");
+
+        QPushButton *close_menu=new QPushButton;
+        QPixmap pixmap("imgs/cruz_icon.svg");
+        close_menu->setStyleSheet("QPushButton { border-radius: "+QString().number((alto_res/10)/2)+"px;}"
+                                  "QPushButton::pressed { background-color: rgb(254, 247, 195);}");
+        close_menu->setFixedSize(alto_res/10,alto_res/10);
+        close_menu->setIcon(pixmap);
+        burger->addWidget(close_menu,0,0,Qt::AlignHCenter);
+        connect(close_menu, &QPushButton::clicked, [=]() {
+            delete wid_burger;
+            total->removeWidget(wid_burger);} );
+
+
+        QPushButton *perfiles=new QPushButton;
+        pixmap.load("imgs/perfil_icon.png");
+        perfiles->setIcon(pixmap);
+        perfiles->setText("Perfiles");
+        burger->addWidget(perfiles,1,0,Qt::AlignLeft);
+        connect(perfiles, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(2); } );
+
+
+        QPushButton *asistencia=new QPushButton;
+        pixmap.load("imgs/asistencia_icon.png");
+        asistencia->setIcon(pixmap);
+        asistencia->setText("Asistencia");
+        burger->addWidget(asistencia,2,0,Qt::AlignLeft);
+        connect(asistencia, &QPushButton::clicked, [=]() { Paginas.setCurrentIndex(3); } );
+
+        QPushButton *suenos=new QPushButton;
+        pixmap.load("imgs/suenos_icon.png");
+        suenos->setIcon(pixmap);
+        suenos->setText("Sueños");
+        burger->addWidget(suenos,3,0,Qt::AlignLeft);
+        connect(suenos, &QPushButton::clicked, [=]() {} );
+
+        wid_burger->setLayout(burger);
+        total->addWidget(wid_burger,0,0,0,1);
+}
 void MainWindow::presionar_ingresar(QString username,QString password)
 {
     QFile file("src/usuarios.json");
@@ -634,6 +911,8 @@ void MainWindow::guardar_alumnos()
         usuario["last_names"]=it.apellidos;
         usuario["first"]=it.inicio_asistencia;
         usuario["attendance"]=it.asistencia;
+        usuario["mood"]=it.estado_animo;
+        usuario["details"]=it.detalles_animo;
 
         ArregloUsuarios.append(usuario);
     }
@@ -659,7 +938,7 @@ void MainWindow::recuperar_alumnos()
 
     for (int i=0;i<arreglo_usuarios.size();i++) {
         QJsonObject usuario( arreglo_usuarios.at(i).toObject() );
-        alumnos.append(alumno(usuario["names"].toString(),usuario["last_names"].toString(),usuario["first"].toString(),usuario["attendance"].toString()));
+        alumnos.append(alumno(usuario["names"].toString(),usuario["last_names"].toString(),usuario["first"].toString(),usuario["attendance"].toString(),usuario["mood"].toString(),usuario["details"].toString()));
     }
 
     file.close();
@@ -670,7 +949,9 @@ void MainWindow::recuperar_alumnos()
         }
     }
 }
+void MainWindow::conect_Mood(QGridLayout *Contenido_layout, QWidget *Contenido_Widget, QString nombre,  QVector<alumno>::iterator iterator){
 
+}
 
 /* Actualizara la tabla de asistencias dependiendo del dia escogido en el calendario. */
 void MainWindow::on_calendarWidget_clicked(const QDate& date) {
@@ -1010,6 +1291,7 @@ void MainWindow::on_calendarWidget_clicked(const QDate& date) {
             }
         } // for
     }
-
-
 }
+
+
+
