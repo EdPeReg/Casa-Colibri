@@ -1,0 +1,46 @@
+{
+    "alumnos": [
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "Sandoval",
+            "names": "Alan"
+        },
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "Ceballos",
+            "names": "Cesar"
+        },
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "Delgado",
+            "names": "Omar"
+        },
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "Dorantes",
+            "names": "Bogar"
+        },
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "Padilla",
+            "names": "Jordy"
+        },
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "Fuentes",
+            "names": "Eduardo"
+        },
+        {
+            "attendance": "1",
+            "first": "",
+            "last_names": "erger",
+            "names": "dfdg"
+        }
+    ]
+}

@@ -1,52 +1,108 @@
 {
     "alumnos": [
         {
-            "attendance": "01010011",
+            "attendance": "01010011001011111",
+            "details": "",
             "first": "lun. abr. 28 2020",
             "last_names": "solis",
+            "mood": "",
             "names": "Javier"
         },
         {
-            "attendance": "100101",
+            "attendance": "100101001",
+            "details": "",
             "first": "lun. abr. 30 2020",
             "last_names": "Perez",
+            "mood": "",
             "names": "Eduardo "
         },
         {
-            "attendance": "11011",
+            "attendance": "11011001",
+            "details": "",
             "first": "lun. may. 1 2020",
             "last_names": "Guztavo",
+            "mood": "",
             "names": "Pepe"
         },
         {
-            "attendance": "1",
+            "attendance": "1001",
+            "details": "",
             "first": "mar. may. 5 2020",
             "last_names": "Sandoval",
+            "mood": "",
             "names": "Alan"
         },
         {
-            "attendance": "1",
+            "attendance": "1001",
+            "details": "",
             "first": "mar. may. 5 2020",
             "last_names": "Francisco",
+            "mood": "",
             "names": "Garcia"
         },
         {
-            "attendance": "1",
+            "attendance": "1001",
+            "details": "",
             "first": "mar. may. 5 2020",
             "last_names": "Cesar",
+            "mood": "",
             "names": "Reyes"
         },
         {
-            "attendance": "1",
+            "attendance": "1001",
+            "details": "",
             "first": "mar. may. 5 2020",
             "last_names": "Karina",
+            "mood": "",
             "names": "Villa"
         },
         {
-            "attendance": "1",
+            "attendance": "1001",
+            "details": "",
             "first": "mar. may. 5 2020",
             "last_names": "la tigresa",
+            "mood": "",
             "names": "Pepe"
+        },
+        {
+            "attendance": "1",
+            "details": "",
+            "first": "vie. may. 8 2020",
+            "last_names": "vi",
+            "mood": "",
+            "names": "Jo"
+        },
+        {
+            "attendance": "1",
+            "details": "",
+            "first": "vie. may. 8 2020",
+            "last_names": "vi",
+            "mood": "",
+            "names": "jose"
+        },
+        {
+            "attendance": "1",
+            "details": "",
+            "first": "vie. may. 8 2020",
+            "last_names": "la loca",
+            "mood": "",
+            "names": "Lola"
+        },
+        {
+            "attendance": "1",
+            "details": "",
+            "first": "vie. may. 8 2020",
+            "last_names": "Lopez",
+            "mood": "",
+            "names": "Martinz"
+        },
+        {
+            "attendance": "1",
+            "details": "",
+            "first": "vie. may. 8 2020",
+            "last_names": "b",
+            "mood": "",
+            "names": "a"
         }
     ]
 }
