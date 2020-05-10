@@ -839,7 +839,7 @@ void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVec
     table->setVerticalHeaderLabels(labelAlumnos);
     table->showGrid();
     table->setStyleSheet("background-color: white");
-    //table->setFixedSize(ancho_res/2,alto_res/3*2);
+    table->setFixedSize(ancho_res/4,alto_res/4);
 
     int column(0);
     // Iterar entre las asistencias de nuestros alumnos y obtener el ultimo numero.
@@ -851,9 +851,9 @@ void MainWindow::show_Attendance(QGridLayout *total,QWidget *Contenido_wid, QVec
         column++;
     }
 
-    Contenido->addWidget(regresar,3,0,1,0,Qt::AlignBottom);
-    Contenido->addWidget(calendar,3,0,1,0,Qt::AlignTop);
-    Contenido->addWidget(table,3,0,1,0,Qt::AlignCenter);
+    Contenido->addWidget(regresar,2,0);
+    Contenido->addWidget(calendar,0,0);
+    Contenido->addWidget(table,1,0,Qt::AlignHCenter);
 
     //Guardamos el repuesto del Contenido_wid en la misma posicion que tenia
 

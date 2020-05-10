@@ -254,10 +254,40 @@ debug/moc_mainwindow.cpp: C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QMa
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QSet \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QDate \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qdatetime.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QTableWidget \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtableview.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QCalendarWidget \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qcalendarwidget.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QGroupBox \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qgroupbox.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QTextEdit \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtextedit.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qtextdocument.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QFileDialog \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qfiledialog.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qdir.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qfileinfo.h \
 		../Ing_soft/mainwindow.h \
 		debug/moc_predefs.h \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/bin/moc.exe
-	C:\Qt\Qt5.12.0\5.12.0\mingw73_64\bin\moc.exe $(DEFINES) --include "C:/Users/Alano/Desktop/ING SOFT/build-Ing_soft-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/debug/moc_predefs.h" -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/mkspecs/win32-g++ -I"C:/Users/Alano/Desktop/ING SOFT/Ing_soft" -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.12.0/Tools/mingw730_64/x86_64-w64-mingw32/include ..\Ing_soft\mainwindow.h -o debug\moc_mainwindow.cpp
+	C:\Qt\Qt5.12.0\5.12.0\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/Alano/Documents/GitHub/Casa-Colibri/build-Ing_soft-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/mkspecs/win32-g++ -IC:/Users/Alano/Documents/GitHub/Casa-Colibri/Ing_soft -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtANGLE -IC:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore -I. -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Qt5.12.0/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Qt5.12.0/Tools/mingw730_64/x86_64-w64-mingw32/include ..\Ing_soft\mainwindow.h -o debug\moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -433,7 +463,37 @@ debug/main.o: ../Ing_soft/main.cpp ../Ing_soft/mainwindow.h \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qinputmethod.h \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qmessagebox.h \
-		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qdialog.h
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QSet \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QDate \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qdatetime.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QTableWidget \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtableview.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QCalendarWidget \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qcalendarwidget.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QGroupBox \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qgroupbox.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QTextEdit \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtextedit.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qtextdocument.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QFileDialog \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qfiledialog.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qdir.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qfileinfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\Ing_soft\main.cpp
 
 debug/mainwindow.o: ../Ing_soft/mainwindow.cpp ../Ing_soft/mainwindow.h \
@@ -588,7 +648,48 @@ debug/mainwindow.o: ../Ing_soft/mainwindow.cpp ../Ing_soft/mainwindow.h \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qdialog.h \
-		ui_mainwindow.h
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QSet \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QDate \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qdatetime.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QTableWidget \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtableview.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qvalidator.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qregularexpression.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qslider.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstyle.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qrubberband.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QCalendarWidget \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qcalendarwidget.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QGroupBox \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qgroupbox.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QTextEdit \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtextedit.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtGui/qtextdocument.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QFileDialog \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qfiledialog.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qdir.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/qfileinfo.h \
+		ui_mainwindow.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtCore/QVariant \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QMenuBar \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qmenubar.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qmenu.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qaction.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qactiongroup.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QStatusBar \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qstatusbar.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QToolBar \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/qtoolbar.h \
+		C:/Qt/Qt5.12.0/5.12.0/mingw73_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\Ing_soft\mainwindow.cpp
 
 debug/moc_mainwindow.o: debug/moc_mainwindow.cpp 

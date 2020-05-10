@@ -1,34 +1,74 @@
 {
     "alumnos": [
         {
-            "attendance": "1",
+            "attendance": "10000000000000000000000000000000000000000000000000",
+            "details": "",
+            "domicilio": "",
+            "edad": "",
             "first": "sáb. mar. 21 2020",
+            "foto": "",
+            "grado": "",
             "last_names": "Sandoval",
-            "names": "Alan"
+            "mood": "",
+            "names": "Alan",
+            "telefono": "",
+            "tutor": ""
         },
         {
-            "attendance": "1",
+            "attendance": "10000000000000000000000000000000000000000000000000",
+            "details": "",
+            "domicilio": "",
+            "edad": "",
             "first": "sáb. mar. 21 2020",
+            "foto": "",
+            "grado": "",
             "last_names": "Perez",
-            "names": "Eduardo"
+            "mood": "",
+            "names": "Eduardo",
+            "telefono": "",
+            "tutor": ""
         },
         {
-            "attendance": "1",
+            "attendance": "10000000000000000000000000000000000000000000000000",
+            "details": "",
+            "domicilio": "",
+            "edad": "",
             "first": "sáb. mar. 21 2020",
+            "foto": "",
+            "grado": "",
             "last_names": "Garcia",
-            "names": "Francisco"
+            "mood": "",
+            "names": "Francisco",
+            "telefono": "",
+            "tutor": ""
         },
         {
-            "attendance": "1",
+            "attendance": "10000000000000000000000000000000000000000000000000",
+            "details": "",
+            "domicilio": "",
+            "edad": "",
             "first": "sáb. mar. 21 2020",
+            "foto": "",
+            "grado": "",
             "last_names": "Reyes",
-            "names": "Cesar"
+            "mood": "",
+            "names": "Cesar",
+            "telefono": "",
+            "tutor": ""
         },
         {
-            "attendance": "1",
+            "attendance": "10000000000000000000000000000000000000000000000000",
+            "details": "",
+            "domicilio": "",
+            "edad": "",
             "first": "sáb. mar. 21 2020",
+            "foto": "",
+            "grado": "",
             "last_names": "Villa",
-            "names": "Karina"
+            "mood": "",
+            "names": "Karina",
+            "telefono": "",
+            "tutor": ""
         }
     ]
 }
