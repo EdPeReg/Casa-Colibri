@@ -32,10 +32,8 @@ FEATURES.
 - Asistencia:
   - Able to take attendance in an easy way.
   - Able to see the attendance, you can see the attendance of each kid depending on the day selected on the calendar.
-    
-  
-BUGS.
-  - Perfiles:
+- Sueños:
+  - Be able to introduce the kid dreams, adding the dream title and details.
   
 NOTES:
   - Perfiles:
@@ -55,3 +53,6 @@ NOTES:
       show it dinamically.
     - You can edit the table when you are showing the attendance, any modification to that table is not reflected, if it
       doesn't reflect any modification, not be able to modify the values in the first place.
+  - Sueños:
+    - The fields are open, find a way to valide them.
+    - It only show the dream from the current day, not other days.
