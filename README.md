@@ -2,12 +2,12 @@
 This is a project made to help an organization CASA COLIBRÍ, as well to the subject "Ingenieria en computacion".
 
 Coders:
-
-LUIS FRANCISCO GARCIA HIRSCHBERG
-ALAN SANDONVAL
-KARINA VILLA CISNEROS
-EDUARDO PEREZ REGIN
-CESAR JAVIER REYES AGUIRRE
+<ul>
+  <li> LUIS FRANCISCO GARCIA HIRSCHBERG </li>
+  <li> ALAN SANDONVAL </li>
+  <li> KARINA VILLA CISNEROS </li>
+  <li> EDUARDO PEREZ REGIN </li>
+  <li> CESAR JAVIER REYES AGUIRRE </li>
 
 This software is intended to help the ONG Casa Colibrí, they need a better way to manage who are the kids that go 
 to that organization, having some information about them.
